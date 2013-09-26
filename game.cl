@@ -99,7 +99,13 @@
           (t (opponent-move new-board)))))
 
 (defun choose-best-move (board)
-  (random-move-strategy board))
+  (if *hard-mode-on*
+	(expert-move-strategy board)
+  (random-move-strategy board)))
+
+(defun expert-move-strategy (board)
+  (list (pick-random-empty-position board)
+        "expert move"))
 
 (defun random-move-strategy (board)
   (list (pick-random-empty-position board)
