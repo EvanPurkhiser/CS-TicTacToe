@@ -112,6 +112,7 @@
       (pick-random-empty-position board))))
 
  (defun play-one-game ()
+  (setf *hard-mode-on* (y-or-n-p "Would you like to play on expert-mode? "))
   (if (y-or-n-p "Would yoy like to go first? ")
       (opponent-move (make-board))
     (computer-move (make-board))))
