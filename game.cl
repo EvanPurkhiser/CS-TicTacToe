@@ -30,8 +30,8 @@
   (setf (nth pos board) player)
   board)
 
-(setf *computer* 10)
-(setf *opponent* 1)
+(setf *opponent1** 10)
+(setf *opponent2* 1)
 
 (setf *triplets*
   '((1 2 3) (4 5 6) (7 8 9)
@@ -50,14 +50,14 @@
 
 (defun winner-p (board)
   (let ((sums (compute-sums board)))
-    (or (member (* 3 *computer*) sums)
-        (member (* 3 *opponent*) sums))))
+    (or (member (* 3 *opponent1**) sums)
+        (member (* 3 *opponent2*) sums))))
 
 
 (defun opponent-move (board)
   (let* ((pos (read-a-legal-move board))
          (new-board (make-move
-                     *opponent*
+                     *opponent2*
                      pos
                      board)))
     (print-board new-board)
@@ -88,7 +88,7 @@
          (pos (first best-move))
          (strategy (second best-move))
          (new-board (make-move
-                     *computer* pos board)))
+                     *opponent1** pos board)))
     (format t "~&My move: ~S" pos)
     (format t "~&My strategy: ~A~%" strategy)
     (print-board new-board)
