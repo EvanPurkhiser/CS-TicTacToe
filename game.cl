@@ -100,7 +100,7 @@
 
 (defun choose-best-move (board)
   (if *hard-mode-on*
-	(expert-move-strategy board)
+    (expert-move-strategy board)
   (random-move-strategy board)))
 
 (defun expert-move-strategy (board)
