@@ -1,3 +1,5 @@
+#!/usr/bin/env clisp
+
 (defun make-board ()
   (list 'board 0 0 0 0 0 0 0 0 0))
 
@@ -113,3 +115,6 @@
   (if (y-or-n-p "Would yoy like to go first? ")
       (opponent-move (make-board))
     (computer-move (make-board))))
+
+;; Start the game
+(play-one-game)
