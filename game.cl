@@ -156,14 +156,10 @@
     (expert-move-strategy board)
   (random-move-strategy board)))
 
-(defun expert-move-strategy (board)
-  (list (pick-random-empty-position board)
-        "expert move"))
-
 ;; Select a random move
 (defun random-move-strategy (board)
   (list (pick-random-empty-position board)
-        "random move"))
+        "Random move"))
 
 ;; Pick a random position on the board. This is recessive, so it will keep
 ;; looking for positions until it can find a free one
@@ -172,6 +168,30 @@
     (if (zerop (nth pos board))
         pos
       (pick-random-empty-position board))))
+
+;; Expert move making mode. When the game is played in this mode then four
+;; different strategies will be tried, in order of importance.
+(defun expert-move-strategy (board)
+  (cond ;; If possible try and win the game
+        ((winning-move-strategy board))
+        ;; If we can't win make sure the opponent can't
+        ((defensive-move-strategy board))
+        ;; If the opponent can't win be offensive (2-in-a-row)
+        ((offensive-move-strategy board))
+        ;; Can't be offensive, make a random move
+        ((random-move-strategy board))))
+
+;; Look for a position on the board where we can take the win
+(defun winning-move-strategy (board)
+  nil)
+
+;; Look for a position on the board where they opponent can win the game
+(defun defensive-move-strategy (board)
+  nil)
+
+;; Loop for a position on the board where we can setup a win later
+(defun offensive-move-strategy (board)
+  nil)
 
 ;; Play a single game of tic-tac-toe. This function will prompt the player with
 ;; a few questions before beginning the game:
