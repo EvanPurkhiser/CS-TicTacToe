@@ -1,4 +1,3 @@
-#!/usr/bin/env clisp
 
 (defun make-board ()
   (list 'board 0 0 0 0 0 0 0 0 0))
@@ -142,5 +141,3 @@
       (opponent-move-p1 (make-board))
     (computer-move (make-board))))
   (opponent-move-p1 (make-board))))
-
-(play-one-game)

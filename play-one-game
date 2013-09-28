@@ -1,0 +1,3 @@
+#!/usr/bin/env clisp
+(load "game.cl")
+(play-one-game)
