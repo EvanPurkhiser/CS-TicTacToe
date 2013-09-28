@@ -9,6 +9,10 @@
     (1 4 7) (2 5 8) (3 6 9)
     (1 5 9) (3 5 7)))
 
+;; If we want random to actually return random numbers that are (a lot less)
+;; predictable then we need to seed the random state
+(setf *random-state* (make-random-state t))
+
 ;; Setup the playing board filled with zeros to start. The playing board will be
 ;; filled with the *opponent1* and *opponent2* constants as the game progresses.
 ;; We can use these values to determine which player has won the game
