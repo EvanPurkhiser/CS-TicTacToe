@@ -76,6 +76,14 @@
     (sum-triplet board triplet))
     *triplets*))
 
+;; Find a position on the board that can win the game for a given opponent
+(defun find-winning-position (board opponent)
+  ;; Find the empty position on the 2-in-a-row line
+  (car (remove-if-not #'(lambda(pos) (eq 0 (nth pos board)))
+  ;; Find the winning line (triplet)
+  (car (remove-if-not #'(lambda(triplet)
+      (eq (sum-triplet board triplet) (* 2 opponent))) *triplets*)))))
+
 ;; Determine if someone has won the game. We can do this by calculating the sums
 ;; for each of the boards triplets (three in a row spaces). If one of the
 ;; players has won then the sum should be 3x the value of the players ID. For
