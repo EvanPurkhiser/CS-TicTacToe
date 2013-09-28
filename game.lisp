@@ -205,7 +205,9 @@
 
 ;; Loop for a position on the board where we can setup a win later
 (defun offensive-move-strategy (board)
-  nil)
+  (let ((pos (find-in-a-row board *opponent2* 1)))
+  (cond (pos (list pos "Offensive move"))
+        (T nil))))
 
 ;; Play a single game of tic-tac-toe. This function will prompt the player with
 ;; a few questions before beginning the game:
