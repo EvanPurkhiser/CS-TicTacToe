@@ -20,38 +20,38 @@
   (let* ((convert-to-letter (lambda (v)
           (cond ((equal v 1) "0")
                 ((equal v 10) "X")
-                (t " "))))
+                (T " "))))
         (print-row (lambda (x y z)
-          (format t "~&  ~A | ~A | ~A"
+          (format T "~&  ~A | ~A | ~A"
             (funcall convert-to-letter x)
             (funcall convert-to-letter y)
             (funcall convert-to-letter z)))))
 
-  (format t "~%")
+  (format T "~%")
   (funcall print-row
    (nth 1 board) (nth 2 board) (nth 3 board))
-  (format t "~& ___________")
+  (format T "~& ___________")
   (funcall print-row
     (nth 4 board) (nth 5 board) (nth 6 board))
-  (format t "~& ___________")
+  (format T "~& ___________")
   (funcall print-row
    (nth 7 board) (nth 8 board) (nth 9 board))
-  (format t "~%~%")))
+  (format T "~%~%")))
 
 ;; Read from stdin a legal move for the current board. This ensure the move fits
 ;; in the board space, and isn't already taken by any of the players
 (defun read-a-legal-move (board)
-  (format t "~&Your move: ")
+  (format T "~&Your move: ")
   (let ((pos (read)))
     (cond ((not (and (integerp pos)
                      (<= 1 pos 9)))
-           (format t "~&Invalid input.")
+           (format T "~&Invalid input.")
            (read-a-legal-move board))
           ((not (zerop (nth pos board)))
-           (format t
+           (format T
                "~&That space is already occupied.")
            (read-a-legal-move board))
-          (t pos))))
+          (T pos))))
 
 ;; Update the board with a players move
 (defun make-move (player pos board)
@@ -106,7 +106,7 @@
 ;; we will pass it off to the second player move function, if not then let the
 ;; computer make a move
 (defun opponent-move-p1 (board)
-  (format t "~&Player 1s turn")
+  (format T "~&Player 1s turn")
   (let* ((pos (read-a-legal-move board))
          (new-board (make-move
                      *opponent1*
@@ -114,16 +114,16 @@
                      board)))
     (print-board new-board)
     (cond ((winner-p new-board)
-           (format t "~&Player 1 Wins!"))
+           (format T "~&Player 1 Wins!"))
           ((board-full-p new-board)
-           (format t "~&Tie game."))
+           (format T "~&Tie game."))
           (*multiplayer-mode*
            (opponent-move-p2 new-board))
-          (t (computer-move new-board)))))
+          (T (computer-move new-board)))))
 
 ;; Allow the second player to make a move then pass it back to the first player
 (defun opponent-move-p2 (board)
-  (format t "~&Player 2s turn")
+  (format T "~&Player 2s turn")
   (let* ((pos (read-a-legal-move board))
          (new-board (make-move
                      *opponent2*
@@ -131,10 +131,10 @@
                      board)))
     (print-board new-board)
     (cond ((winner-p new-board)
-           (format t "~&Player 2 Wins!"))
+           (format T "~&Player 2 Wins!"))
           ((board-full-p new-board)
-           (format t "~&Tie game."))
-          (t (opponent-move-p1 new-board)))))
+           (format T "~&Tie game."))
+          (T (opponent-move-p1 new-board)))))
 
 ;; Let the computer make a move then pass it back to the first player
 (defun computer-move (board)
@@ -143,14 +143,14 @@
          (strategy (second best-move))
          (new-board (make-move
                      *opponent2* pos board)))
-    (format t "~&Computers move: ~S" pos)
-    (format t "~&Computers strategy: ~A~%" strategy)
+    (format T "~&Computers move: ~S" pos)
+    (format T "~&Computers strategy: ~A~%" strategy)
     (print-board new-board)
     (cond ((winner-p new-board)
-           (format t "~&Computer wins!"))
+           (format T "~&Computer wins!"))
           ((board-full-p new-board)
-           (format t "~&Tie game."))
-          (t (opponent-move-p1 new-board)))))
+           (format T "~&Tie game."))
+          (T (opponent-move-p1 new-board)))))
 
 ;;; Computer AI functionality
 
