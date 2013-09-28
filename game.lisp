@@ -76,13 +76,15 @@
     (sum-triplet board triplet))
     *triplets*))
 
-;; Find a position on the board that can win the game for a given opponent
-(defun find-winning-position (board opponent)
+;; Find a position on the board that will continue or complete a row. Use the
+;; num-in-row binding to specify how many boxes in the row should already have
+;; been taken by the given opponent
+(defun find-in-a-row (board opponent num-in-row)
   ;; Find the empty position on the 2-in-a-row line
   (car (remove-if-not #'(lambda(pos) (eq 0 (nth pos board)))
   ;; Find the winning line (triplet)
   (car (remove-if-not #'(lambda(triplet)
-      (eq (sum-triplet board triplet) (* 2 opponent))) *triplets*)))))
+      (eq (sum-triplet board triplet) (* num-in-row opponent))) *triplets*)))))
 
 ;; Determine if someone has won the game. We can do this by calculating the sums
 ;; for each of the boards triplets (three in a row spaces). If one of the
@@ -191,13 +193,13 @@
 
 ;; Look for a position on the board where we can take the win
 (defun winning-move-strategy (board)
-  (let ((pos (find-winning-position board *opponent2*)))
+  (let ((pos (find-in-a-row board *opponent2* 2)))
   (cond (pos (list pos "Winning move"))
         (T nil))))
 
 ;; Look for a position on the board where they opponent can win the game
 (defun defensive-move-strategy (board)
-  (let ((pos (find-winning-position board *opponent1*)))
+  (let ((pos (find-in-a-row board *opponent1* 2)))
   (cond (pos (list pos "Defensive move"))
         (T nil))))
 
