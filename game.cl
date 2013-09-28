@@ -3,28 +3,28 @@
 (defun make-board ()
   (list 'board 0 0 0 0 0 0 0 0 0))
 
-(defun convert-to-letter (v)
-  (cond ((equal v 1) "0")
-        ((equal v 10) "X")
-        (t " ")))
-
-(defun print-row (x y z)
-  (format t "~&  ~A | ~A | ~A"
-    (convert-to-letter x)
-    (convert-to-letter y)
-    (convert-to-letter z)))
-
+;; Print out a ASCII representation of the game board
 (defun print-board (board)
+  (let* ((convert-to-letter (lambda (v)
+          (cond ((equal v 1) "0")
+                ((equal v 10) "X")
+                (t " "))))
+        (print-row (lambda (x y z)
+          (format t "~&  ~A | ~A | ~A"
+            (funcall convert-to-letter x)
+            (funcall convert-to-letter y)
+            (funcall convert-to-letter z)))))
+
   (format t "~%")
-  (print-row
+  (funcall print-row
    (nth 1 board) (nth 2 board) (nth 3 board))
   (format t "~& ___________")
-  (print-row
+  (funcall print-row
     (nth 4 board) (nth 5 board) (nth 6 board))
   (format t "~& ___________")
-  (print-row
+  (funcall print-row
    (nth 7 board) (nth 8 board) (nth 9 board))
-  (format t "~%~%"))
+  (format t "~%~%")))
 
 (defun make-move (player pos board)
   (setf (nth pos board) player)
