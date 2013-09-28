@@ -191,11 +191,15 @@
 
 ;; Look for a position on the board where we can take the win
 (defun winning-move-strategy (board)
-  nil)
+  (let ((pos (find-winning-position board *opponent2*)))
+  (cond (pos (list pos "Winning move"))
+        (T nil))))
 
 ;; Look for a position on the board where they opponent can win the game
 (defun defensive-move-strategy (board)
-  nil)
+  (let ((pos (find-winning-position board *opponent1*)))
+  (cond (pos (list pos "Defensive move"))
+        (T nil))))
 
 ;; Loop for a position on the board where we can setup a win later
 (defun offensive-move-strategy (board)
