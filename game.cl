@@ -30,7 +30,7 @@
   (setf (nth pos board) player)
   board)
 
-(setf *opponent1** 10)
+(setf *opponent1* 10)
 (setf *opponent2* 1)
 
 (setf *triplets*
@@ -50,11 +50,28 @@
 
 (defun winner-p (board)
   (let ((sums (compute-sums board)))
-    (or (member (* 3 *opponent1**) sums)
+    (or (member (* 3 *opponent1*) sums)
         (member (* 3 *opponent2*) sums))))
 
 
-(defun opponent-move (board)
+(defun opponent-move-p1 (board)
+  (format t "~&Player 1s turn")
+  (let* ((pos (read-a-legal-move board))
+         (new-board (make-move
+                     *opponent1*
+                     pos
+                     board)))
+    (print-board new-board)
+    (cond ((winner-p new-board)
+           (format t "~&Player 1 Wins!"))
+          ((board-full-p new-board)
+           (format t "~&Tie game."))
+          (*multiplayer-mode*
+           (opponent-move-p2 new-board))
+          (t (computer-move new-board)))))
+
+(defun opponent-move-p2 (board)
+  (format t "~&Player 2s turn")
   (let* ((pos (read-a-legal-move board))
          (new-board (make-move
                      *opponent2*
@@ -62,10 +79,10 @@
                      board)))
     (print-board new-board)
     (cond ((winner-p new-board)
-           (format t "~&You win!"))
+           (format t "~&Player 2 Wins!"))
           ((board-full-p new-board)
            (format t "~&Tie game."))
-          (t (computer-move new-board)))))
+          (t (opponent-move-p1 new-board)))))
 
 (defun read-a-legal-move (board)
   (format t "~&Your move: ")
@@ -88,15 +105,15 @@
          (pos (first best-move))
          (strategy (second best-move))
          (new-board (make-move
-                     *opponent1** pos board)))
-    (format t "~&My move: ~S" pos)
-    (format t "~&My strategy: ~A~%" strategy)
+                     *opponent2* pos board)))
+    (format t "~&Computers move: ~S" pos)
+    (format t "~&Computers strategy: ~A~%" strategy)
     (print-board new-board)
     (cond ((winner-p new-board)
-           (format t "~&I win!"))
+           (format t "~&Computer wins!"))
           ((board-full-p new-board)
            (format t "~&Tie game."))
-          (t (opponent-move new-board)))))
+          (t (opponent-move-p1 new-board)))))
 
 (defun choose-best-move (board)
   (if *hard-mode-on*
@@ -117,11 +134,13 @@
         pos
       (pick-random-empty-position board))))
 
- (defun play-one-game ()
-  (setf *hard-mode-on* (y-or-n-p "Would you like to play on expert-mode? "))
-  (if (y-or-n-p "Would yoy like to go first? ")
-      (opponent-move (make-board))
+(defun play-one-game ()
+  (setf *multiplayer-mode* (not (y-or-n-p "Play against the computer?")))
+  (if (not *multiplayer-mode*)
+    (progn (setf *hard-mode-on* (y-or-n-p "Would you like to play on expert-mode?"))
+    (if (y-or-n-p "Would you like to go first?")
+      (opponent-move-p1 (make-board))
     (computer-move (make-board))))
+  (opponent-move-p1 (make-board))))
 
-;; Start the game
 (play-one-game)
