@@ -22,11 +22,11 @@
 ;; Print out a ASCII representation of the game board
 (defun print-board (board)
   (let* ((convert-to-letter (lambda (v)
-          (cond ((equal v 1) "0")
-                ((equal v 10) "X")
+          (cond ((equal v 1) "○")
+                ((equal v 10) "✕")
                 (T " "))))
         (print-row (lambda (x y z)
-          (format T "~&  ~A | ~A | ~A"
+          (format T "~&  ~A │ ~A │ ~A"
             (funcall convert-to-letter x)
             (funcall convert-to-letter y)
             (funcall convert-to-letter z)))))
@@ -34,10 +34,10 @@
   (format T "~%")
   (funcall print-row
    (nth 1 board) (nth 2 board) (nth 3 board))
-  (format T "~& ___________")
+  (format T "~& ───┼───┼───")
   (funcall print-row
     (nth 4 board) (nth 5 board) (nth 6 board))
-  (format T "~& ___________")
+  (format T "~& ───┼───┼───")
   (funcall print-row
    (nth 7 board) (nth 8 board) (nth 9 board))
   (format T "~%~%")))
