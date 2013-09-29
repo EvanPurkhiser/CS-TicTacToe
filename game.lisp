@@ -166,7 +166,7 @@
 ;; and the second element is a string describing the strategy that was used for
 ;; the move
 (defun choose-best-move (board)
-  (if *hard-mode-on*
+  (if *expert-mode*
     (expert-move-strategy board)
   (random-move-strategy board)))
 
@@ -220,12 +220,12 @@
 ;;    1. Does he want to play on expert mode?
 ;;    2. Does the want to make the first move?
 ;;
-;; If playing on 'expert mode' then the *hard-mode-on* global is set to true. If
+;; If playing on 'expert mode' then the *expert-mode* global is set to true. If
 ;; they opt to go first then we let player 1 make his move.
 (defun play-one-game ()
   (setf *multiplayer-mode* (not (y-or-n-p "Play against the computer?")))
   (if (not *multiplayer-mode*) (progn
-    (setf *hard-mode-on* (y-or-n-p "Would you like to play on expert-mode?"))
+    (setf *expert-mode* (y-or-n-p "Would you like to play on expert-mode?"))
     (if (y-or-n-p "Would you like to go first?")
       (opponent-move-p1 (make-board))
     (computer-move (make-board))))
